@@ -88,19 +88,17 @@
 \begin{document}
 \pagenumbering{gobble}
 
-%%%% 利用tikz来定位照片
-\begin{tikzpicture}[remember picture, overlay] 
-    \node[anchor = north east] at ($(current page.north east)+(-2cm,-1.2cm)$) {\includegraphics[height=3cm]{avatar.jpg}};
-  \end{tikzpicture}%
+
   %%%% 利用tikz来定位学校Logo，这里只在第一页显示
   \begin{tikzpicture}[remember picture, overlay] 
     \node[anchor = north west] at ($(current page.north west)+(0.5cm,+1.0cm)$) {\includegraphics[height=6cm]{zju.png}};
   \end{tikzpicture}%
 \centerline{\LARGE\bfseries{欧庆辉}} 
 
-\centerline{\normalsize{\faPhone\ 15251176009 \quad \faEnvelopeO\ \href{mailto:2689841891@qq.com}{2689841891@qq.com}}} 
+\centerline{\normalsize{\faPhone\ 152-5117-6009 \quad \faEnvelopeO\ \href{mailto:15251176009@163.com}{15251176009@163.com}}} 
 
-\centerline{\normalsize{\faGithubSquare\ \href{https://github.com/maksymilan}{https://github.com/maksymilan} \quad \faRssSquare\ \href{https://maksymilan.github.io/}{https://maksymilan.github.io}}} 
+\centerline{\normalsize{硕士在读 \quad 实习时间：4-6个月}}
+
     
 \section{\makebox[\widthof{\faGraduationCap}][c]{\color{CVBlue}\faGraduationCap}\ 教育背景}    
 \textbf{浙江大学} \hfill 2024.9 -- 至今\\[0.5em] % 标题和正文间加一点距离
@@ -111,27 +109,29 @@ CC98烂坑挖掘工程与技术\quad 大二
 
 \section{\makebox[\widthof{\faUsers}][c]{\color{CVBlue}\faUsers}\ 项目经历}
 
-% --- 第一个项目 ---
-% 将标题行末尾的 \\ 替换为 \titlebreak 命令
-\textbf{98烂坑风控与可视化作战平台} \hfill 2024.08 -- 至今 \titlebreak
-项目描述：为维护cc98社区的讨论纯度、净化“心灵之约”版块风气，本项目旨在对“烂坑”进行科学、严谨的量化分析，并引入\textbf{大语言模型(LLM)}对烂坑帖进行\textbf{自动化情感极性与“离谱指数”标注}。
-% 在 itemize 的选项中，使用 topsep=\intraProjectListTopSep 来控制上边距
+% --- 第一个项目：Tiny-RAG ---
+\textbf{Tiny-RAG 企业知识库系统} \hfill 2025.10 -- 2026.02 \titlebreak
+项目描述：设计并实现高可用、高召回的企业级混合检索知识库系统，解决传统RAG在专有名词识别、长文档语义割裂、大文件上传可靠性等场景的痛点，支持多租户安全访问与低Token消耗的智能问答，可直接落地企业内部知识问答、智能客服等场景。
 \begin{itemize}[nosep, topsep=\intraProjectListTopSep]
-    \item \textbf{数据与后端}：运用 \textbf{Go} 语言及 \textbf{GORM} 框架，实现对全站“烂坑”帖的7x24小时全天候\textbf{抓取}与\textbf{入库}(MySQL)。
-    \item \textbf{可视化前端}：采用原生 \textbf{HTML/CSS/JS} 构建了“烂坑”实时监控\textbf{作战大屏}。实现了坑主成分分析、挖坑热力图、年度烂坑王榜单等\textbf{可视化图表}，并通过 \textbf{AJAX} 异步刷新，确保数据洞察的实时性。
-    \item \textbf{核心产出}：全面掌握了从\textbf{数据采集、清洗、LLM标注到可视化分析}的“反烂坑”全链路技术。
+    \item \textbf{混合检索引擎架构设计}：基于BM25（稀疏）与句向量Embedding（稠密）构建并行双引擎检索架构，结合KNN向量召回与关键词检索，提升专有名词与长尾语义的覆盖率；引入Cross-Encoder做高精度重排，大幅提升上下文相关性与排序准确性。
+    \item \textbf{双引擎索引落地实现}：基于Elasticsearch + IK分词搭建BM25关键词索引，使用通义千问2048维高维Embedding做语义向量化并存入向量库，通过RRF算法并行融合检索结果并重排，输出高相关候选片段。
+    \item \textbf{长文档语义优化方案}：提出Parent-Child Indexing（父子索引）策略，以小粒度子块定位检索、回溯父级段落恢复上下文，兼顾召回精度与语义完整性，解决长文档切片导致的语义割裂问题。
+    \item \textbf{高可靠大文件上传架构}：基于Kafka解耦「上传→解析→向量化」全流程，支持分片上传与断点续传；利用Redis Bitmap跟踪分片状态，结合MinIO与分片MD5校验实现可靠合并，提升上传可靠性与系统吞吐能力。
+    \item \textbf{智能检索优化与安全管控}：采用Dynamic Top-K调度算法，根据召回分数分布动态调整提交给LLM的片段数量，显著降低Token消耗；开发基于LLM的Query-Rewrite模块，完成指代消解与语义扩展；引入RBAC多级权限控制，支持租户隔离与文档级鉴权。
 \end{itemize}
 
-% 使用 \projectsep 命令来分隔两个项目
+% 项目分隔
 \projectsep
 
-% --- 第二个项目 ---
-\textbf{AIGC驱动的超进化自动挖坑机 (Agent)} \hfill 2025.02 -- 至今 \titlebreak
-项目描述：为探索心灵版规的边界，以及测试版主锁沉反应速度的极限，本项目基于\textbf{多智能体协作(MCP)与LLM}技术，开发了一款能\textbf{自主“挖坑”与“互坑”}的AI Agent。
+% --- 第二个项目：PaiAgent ---
+\textbf{PaiAgent - 企业级AI工作流可视化编排平台} \hfill 2025.03 -- 2026.01 \titlebreak
+项目描述：基于LangGraph4j与Spring AI搭建的零代码AI Agent编排平台，支持通过可视化拖拽界面编排多模型、多工具节点，以DAG引擎驱动复杂AI任务执行，帮助企业快速构建定制化AI工作流，降低Agent应用的开发门槛。
 \begin{itemize}[nosep, topsep=\intraProjectListTopSep]
-    \item \textbf{并发与调度}：后端采用 \textbf{Go} 语言，充分利用 \textbf{Goroutine} 和 \textbf{Channel} 的高并发模型，模拟\textbf{用户并发在线}，执行定时挖坑，确保挖坑行动的\textbf{隐蔽性}与\textbf{高效性}。
-    \item \textbf{实时监控与响应}：运用 \textbf{WebSocket} 协议实现了对目标帖子的\textbf{实时监听与交互}。确保在烂坑被识破的第一时间，Agent能光速完成\textbf{“lktp”}或\textbf{反向钓鱼}操作，展现出极高的AI博弈能力。
-    \item \textbf{可视化GUI}：前端使用 \textbf{React} 框架构建了\textbf{后台管理的可视化面板 (Admin Panel)}。可一键下达挖坑指令、动态调整Agent的\textbf{指令}、并实时监控数据。
+    \item \textbf{工作流引擎核心实现}：基于LangGraph4j StateGraph构建可视化工作流引擎，通过GraphBuilder完成节点注册与边连接，NodeAdapter将现有执行器适配为LangGraph异步节点，StateManager管理节点间状态传递，实现支持状态图、条件分支的高级工作流编排。
+    \item \textbf{多模型统一接入架构}：设计Spring AI多模型统一接入方案，通过ChatClientFactory动态工厂，运行时根据节点配置（apiUrl/apiKey/model/temperature）动态创建OpenAI兼容的ChatClient实例，结合OpenAiChatOptions统一配置模型参数，实现OpenAI、DeepSeek、通义千问等多厂商LLM的无缝切换。
+    \item \textbf{代码架构优化与复用}：使用模板方法模式重构LLM节点执行器，抽象AbstractLLMNodeExecutor基类封装配置提取、模板处理、API调用、输出构建的通用流程，子类仅需实现getNodeType()方法，将5个LLM节点执行器代码从800+行精简至每个约10行。
+    \item \textbf{灵活参数映射与DAG解析}：实现Prompt模板变量替换，支持\texttt{\{variable\}}解析input静态值和reference动态引用；基于Kahn算法的拓扑排序确定节点执行顺序，通过DFS深度优先搜索检测循环依赖防止死锁，支持一对多、多对一的节点连接方式。
+    \item \textbf{实时反馈机制实现}：基于Spring SseEmitter实现工作流执行的实时反馈，设计ExecutionEvent事件模型，通过Consumer<ExecutionEvent>回调机制将LLM流式生成内容实时推送到前端调试面板。
 \end{itemize}
 
 \section{\makebox[\widthof{\faCogs}][c]{\color{CVBlue}\faCogs}\ 技术栈}
