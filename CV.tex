@@ -38,42 +38,42 @@
     a4paper,
     left=1.2cm,
     right=1.2cm,
-    top=1.5cm,
-    bottom=1cm,
+    top=1.2cm,      % 减小上边距
+    bottom=0.8cm,   % 减小下边距
     nohead
 ]{geometry}
 
-\renewcommand{\baselinestretch}{1.5}
+\renewcommand{\baselinestretch}{1.2} % 【关键】减小行间距（从1.5改到1.2）
 
 \usepackage{titlesec}
 \usepackage{enumitem}
 \setlist{noitemsep}
-\setlist[itemize]{topsep=0.25em, leftmargin=*}
-\setlist[enumerate]{topsep=0.25em, leftmargin=*}
+\setlist[itemize]{topsep=0.2em, leftmargin=*} % 略微减小列表顶部间距
+\setlist[enumerate]{topsep=0.2em, leftmargin=*}
 
 \newlength{\interProjectSpacing}
-\setlength{\interProjectSpacing}{0.6em}
+\setlength{\interProjectSpacing}{0.4em} % 减小项目之间的间距
 \newcommand{\projectsep}{\vspace{\interProjectSpacing}}
 
 \newlength{\intraProjectTitleSep}
-\setlength{\intraProjectTitleSep}{0.35em}
+\setlength{\intraProjectTitleSep}{0.25em} % 减小标题内部换行间距
 \newcommand{\titlebreak}{\\[\intraProjectTitleSep]}
 
 \newlength{\intraProjectListTopSep}
-\setlength{\intraProjectListTopSep}{0.15em}
+\setlength{\intraProjectListTopSep}{0.1em} % 减小列表与上文的间距
 
 \titleformat{\section}
-{\large\bfseries\raggedright}
+{\normalsize\bfseries\raggedright} % 【关键】 section标题字体从 large 改为 normalsize
 {}{0em}
 {}
 [{\color{CVBlue}\titlerule}]
-\titlespacing*{\section}{0cm}{*1.6}{*1.2}
+\titlespacing*{\section}{0cm}{*1.0}{*0.8} % 【关键】减小section标题上下间距
 
 \begin{document}
 \pagenumbering{gobble}
 
 \begin{tikzpicture}[remember picture, overlay]
-    \node[anchor = north west] at ($(current page.north west)+(0.5cm,+1.0cm)$) {\includegraphics[height=6cm]{zju.png}};
+    \node[anchor = north west] at ($(current page.north west)+(0.5cm,+0.8cm)$) {\includegraphics[height=5.5cm]{zju.png}}; % 略微缩小校徽
 \end{tikzpicture}%
 
 \centerline{\LARGE\bfseries{欧庆辉}}
@@ -83,26 +83,31 @@
 
 \section{\makebox[\widthof{\faGraduationCap}][c]{\color{CVBlue}\faGraduationCap}\ 教育背景}
 \begin{tabular}{l l r}
-\textbf{浙江大学} & 人工智能/硕士 & 2024.9 -- 2027.6 \\[0.4em]
+\textbf{浙江大学} & 人工智能/硕士 & 2024.9 -- 2027.6 \\[0.3em] % 减小表格行间距
 \textbf{苏州大学} & 高分子材料与工程/学士 & 2018.9 -- 2022.6 \\
 \end{tabular}
 
+% ========== 新增：技术栈章节 ==========
+\section{\makebox[\widthof{\faWrench}][c]{\color{CVBlue}\faWrench}\ 技术栈}
+\textbf{后端：} Java 8+、Spring Boot、MySQL、Redis、MinIO、Kafka、Elasticsearch \\
+\textbf{AI/RAG：} RAG、LangGraph4j、Spring AI、Prompt工程
+
 \section{\makebox[\widthof{\faUsers}][c]{\color{CVBlue}\faUsers}\ 项目经历}
 
-% ========== Tiny-RAG 完全保留原版 ==========
+% ========== Tiny-RAG ==========
 \textbf{Tiny-RAG 企业知识库系统} \hfill  \titlebreak
-项目描述：设计并实现高可用、高召回的企业级混合检索知识库系统，解决传统RAG在专有名词识别、长文档语义割裂、大文件上传可靠性等场景的痛点，支持多租户安全访问与低Token消耗的智能问答，可直接落地企业内部知识问答、智能客服等场景。
+项目描述：设计并实现高可用、高召回的企业级混合检索知识库系统，解决传统RAG在专有名词识别、长文档语义割裂、大文件上传可靠性等场景的痛点，支持多租户安全访问与低Token消耗的智能问答。
 \begin{itemize}[nosep, topsep=\intraProjectListTopSep]
-    \item \textbf{混合检索引擎架构设计}：基于BM25（稀疏）与句向量Embedding（稠密）构建并行双引擎检索架构，结合KNN向量召回与关键词检索，提升专有名词与长尾语义的覆盖率；引入Cross-Encoder做高精度重排，大幅提升上下文相关性与排序准确性。
-    \item \textbf{双引擎索引落地实现}：基于Elasticsearch + IK分词搭建BM25关键词索引，使用通义千问2048维高维Embedding做语义向量化并存入向量库，通过RRF算法并行融合检索结果并重排，输出高相关候选片段。
-    \item \textbf{长文档语义优化方案}：提出Parent-Child Indexing（父子索引）策略，以小粒度子块定位检索、回溯父级段落恢复上下文，兼顾召回精度与语义完整性，解决长文档切片导致的语义割裂问题。
-    \item \textbf{高可靠大文件上传架构}：基于Kafka解耦「上传→解析→向量化」全流程，支持分片上传与断点续传；利用Redis Bitmap跟踪分片状态，结合MinIO与分片MD5校验实现可靠合并，提升上传可靠性与系统吞吐能力。
-    \item \textbf{智能检索优化与安全管控}：采用Dynamic Top-K调度算法，根据召回分数分布动态调整提交给LLM的片段数量，显著降低Token消耗；开发基于LLM的Query-Rewrite模块，完成指代消解与语义扩展；引入RBAC多级权限控制，支持租户隔离与文档级鉴权。
+    \item \textbf{混合检索引擎架构设计}：基于BM25（稀疏）与句向量Embedding（稠密）构建并行双引擎检索架构，结合KNN向量召回与关键词检索，提升专有名词与长尾语义的覆盖率；引入Cross-Encoder做高精度重排。
+    \item \textbf{双引擎索引落地实现}：基于Elasticsearch + IK分词搭建BM25关键词索引，使用通义千问2048维高维Embedding做语义向量化并存入向量库，通过RRF算法并行融合检索结果并重排。
+    \item \textbf{长文档语义优化方案}：提出Parent-Child Indexing（父子索引）策略，以小粒度子块定位检索、回溯父级段落恢复上下文，兼顾召回精度与语义完整性。
+    \item \textbf{高可靠大文件上传架构}：基于Kafka解耦「上传→解析→向量化」全流程，支持分片上传与断点续传；利用Redis Bitmap跟踪分片状态，结合MinIO与分片MD5校验实现可靠合并。
+    \item \textbf{智能检索优化与安全管控}：采用Dynamic Top-K调度算法，根据召回分数分布动态调整提交给LLM的片段数量；开发基于LLM的Query-Rewrite模块；引入RBAC多级权限控制。
 \end{itemize}
 
 \projectsep
 
-% ========== PaiAgent 全新精准精简（严格按你图片原文） ==========
+% ========== PaiAgent ==========
 \textbf{PaiAgent 企业级AI工作流可视化编排平台} \hfill  \titlebreak
 项目描述：基于LangGraph4j与Spring AI构建企业级AI工作流平台，支持可视化拖拽编排多模型与工具节点，通过DAG引擎执行复杂AI任务，实现零代码快速构建AI Agent应用。
 \begin{itemize}[nosep, topsep=\intraProjectListTopSep]
@@ -110,7 +115,7 @@
     \item \textbf{架构优化与DAG调度}：采用模板方法模式重构LLM节点执行器，大幅精简代码；基于Kahn拓扑排序与DFS环检测实现DAG可靠调度，支持流式实时反馈。
 \end{itemize}
 
-\section{\makebox[\widthof{\faGraduationCap}][c]{\color{CVBlue}\faList}\ 获奖情况}
+\section{\makebox[\widthof{\faTrophy}][c]{\color{CVBlue}\faTrophy}\ 获奖情况} % 换了个更贴切的图标
 \begin{itemize}[nosep]
     \item 浙江大学一等学业优秀奖学金 \hfill 2025.11
     \item 唐仲英德育奖学金 \hfill 2019 -- 2022
