@@ -106,17 +106,17 @@
 \end{itemize}
 
 \projectsep
-
+\vspace{0.8em}
 % ========== PaiAgent 完整保留用户提供的详细文字版 ==========
 \textbf{PaiAgent - 企业级AI工作流可视化编排平台} \hfill  \titlebreak
 项目描述：基于LangGraph4j与Spring AI的企业级AI工作流平台，支持可视化拖拽编排多模型（OpenAI、DeepSeek、通义千问）与工具节点，DAG引擎按拓扑顺序执行复杂AI任务，实现零代码构建AI Agent应用。
 \begin{itemize}[nosep, topsep=\intraProjectListTopSep]
     \item 基于LangGraph4j StateGraph构建工作流引擎，GraphBuilder负责节点注册与边连接，NodeAdapter适配现有执行器为异步节点，StateManager管理状态传递，支持状态图、条件分支的高级编排。
-    \item 设计Spring AI多模型统一接入架构：ChatClientFactory动态工厂，运行时根据节点配置动态创建OpenAI兼容ChatClient，OpenAiChatOptions统一参数配置，实现多厂商LLM无缝切换。
-    \item 模板方法模式重构LLM节点执行器：抽象AbstractLLMNodeExecutor基类封装通用流程，子类仅需实现getNodeType()，将5个执行器代码从800+行精简至约10行/个。
-    \item 实现Prompt模板变量替换：支持input静态值与reference动态引用，从上游节点输出自动获取参数，实现节点间数据灵活映射。
-    \item 实现DAG工作流解析引擎：基于Kahn算法拓扑排序确定执行顺序，DFS深度优先搜索检测循环依赖防止死锁，支持一对多、多对一节点连接。
-    \item 基于Spring SseEmitter实现实时反馈：设计ExecutionEvent事件模型，Consumer<ExecutionEvent>回调将LLM流式生成内容实时推送到前端调试面板。
+    \item \textbf{设计Spring AI多模型统一接入架构}：ChatClientFactory动态工厂，运行时根据节点配置动态创建OpenAI兼容ChatClient，OpenAiChatOptions统一参数配置，实现多厂商LLM无缝切换。
+    \item \textbf{模板方法模式重构LLM节点执行器}：抽象AbstractLLMNodeExecutor基类封装通用流程，子类仅需实现getNodeType()，将5个执行器代码从800+行精简至约10行/个。
+    \item \textbf{实现Prompt模板变量替换}：支持input静态值与reference动态引用，从上游节点输出自动获取参数，实现节点间数据灵活映射。
+    \item \textbf{实现DAG工作流解析引擎}：基于Kahn算法拓扑排序确定执行顺序，DFS深度优先搜索检测循环依赖防止死锁，支持一对多、多对一节点连接。
+    \item \textbf{基于Spring SseEmitter实现实时反馈}：设计ExecutionEvent事件模型，Consumer<ExecutionEvent>回调将LLM流式生成内容实时推送到前端调试面板。
 \end{itemize}
 
 \section{\makebox[\widthof{\faTrophy}][c]{\color{CVBlue}\faTrophy}\ 获奖情况}
