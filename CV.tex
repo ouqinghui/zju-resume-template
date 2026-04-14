@@ -59,19 +59,26 @@
 \setlist[itemize]{topsep=0.25em, leftmargin=*}
 \setlist[enumerate]{topsep=0.25em, leftmargin=*}
 
-% --- 用于控制【不同项目之间】的垂直距离 ---
+% --- 用于控制【不同项目之间】的垂直距离（微调缩小）---
 \newlength{\interProjectSpacing}
-\setlength{\interProjectSpacing}{0.9em} % <--- 在此调整项目之间的距离
+\setlength{\interProjectSpacing}{0.6em} % <--- 从0.9em调至0.6em
 \newcommand{\projectsep}{\vspace{\interProjectSpacing}}
 
 % --- 用于控制【项目标题】与下方【项目描述】的距离 ---
 \newlength{\intraProjectTitleSep}
-\setlength{\intraProjectTitleSep}{0.4em} % <--- 在此调整标题和描述的距离
+\setlength{\intraProjectTitleSep}{0.4em} % <--- Tiny-RAG保持原间距
 \newcommand{\titlebreak}{\\[\intraProjectTitleSep]}
+% --- 单独为PaiAgent设置更小的标题-描述间距 ---
+\newlength{\intraProjectTitleSepSmall}
+\setlength{\intraProjectTitleSepSmall}{0.25em}
+\newcommand{\titlebreakSmall}{\\[\intraProjectTitleSepSmall]}
 
 % --- 用于控制【项目描述】与下方【要点列表】的距离 ---
 \newlength{\intraProjectListTopSep}
-\setlength{\intraProjectListTopSep}{0.2em} % <--- 在此调整描述和列表的距离
+\setlength{\intraProjectListTopSep}{0.2em} % <--- Tiny-RAG保持原间距
+% --- 单独为PaiAgent设置更小的描述-列表间距 ---
+\newlength{\intraProjectListTopSepSmall}
+\setlength{\intraProjectListTopSepSmall}{0.1em}
 
 % =======================================================================
 
@@ -103,12 +110,15 @@
 
     
 \section{\makebox[\widthof{\faGraduationCap}][c]{\color{CVBlue}\faGraduationCap}\ 教育背景}    
-\textbf{浙江大学} \quad 人工智能/硕士 \hfill 2024.9 -- 2027.6 \\[0.5em]
-\textbf{苏州大学} \quad 高分子材料与工程/学士 \hfill 2018.9 -- 2022.6
+% 使用 tabular 优化教育背景排版，三列分别左、中、右对齐
+\begin{tabular}{l l r}
+\textbf{浙江大学} & 人工智能/硕士 & 2024.9 -- 2027.6 \\[0.5em]
+\textbf{苏州大学} & 高分子材料与工程/学士 & 2018.9 -- 2022.6 \\
+\end{tabular}
 
 \section{\makebox[\widthof{\faUsers}][c]{\color{CVBlue}\faUsers}\ 项目经历}
 
-% --- 第一个项目：Tiny-RAG ---
+% --- 第一个项目：Tiny-RAG（完全保留原始详细描述）---
 \textbf{Tiny-RAG 企业知识库系统} \hfill 2025.10 -- 2026.02 \titlebreak
 项目描述：设计并实现高可用、高召回的企业级混合检索知识库系统，解决传统RAG在专有名词识别、长文档语义割裂、大文件上传可靠性等场景的痛点，支持多租户安全访问与低Token消耗的智能问答，可直接落地企业内部知识问答、智能客服等场景。
 \begin{itemize}[nosep, topsep=\intraProjectListTopSep]
@@ -122,20 +132,18 @@
 % 项目分隔
 \projectsep
 
-% --- 第二个项目：PaiAgent ---
-\textbf{PaiAgent - 企业级AI工作流可视化编排平台} \hfill 2025.03 -- 2026.01 \titlebreak
-项目描述：基于LangGraph4j与Spring AI搭建的零代码AI Agent编排平台，支持通过可视化拖拽界面编排多模型、多工具节点，以DAG引擎驱动复杂AI任务执行，帮助企业快速构建定制化AI工作流，降低Agent应用的开发门槛。
-\begin{itemize}[nosep, topsep=\intraProjectListTopSep]
-    \item \textbf{工作流引擎核心实现}：基于LangGraph4j StateGraph构建可视化工作流引擎，通过GraphBuilder完成节点注册与边连接，NodeAdapter将现有执行器适配为LangGraph异步节点，StateManager管理节点间状态传递，实现支持状态图、条件分支的高级工作流编排。
-    \item \textbf{多模型统一接入架构}：设计Spring AI多模型统一接入方案，通过ChatClientFactory动态工厂，运行时根据节点配置（apiUrl/apiKey/model/temperature）动态创建OpenAI兼容的ChatClient实例，结合OpenAiChatOptions统一配置模型参数，实现OpenAI、DeepSeek、通义千问等多厂商LLM的无缝切换。
-    \item \textbf{代码架构优化与复用}：使用模板方法模式重构LLM节点执行器，抽象AbstractLLMNodeExecutor基类封装配置提取、模板处理、API调用、输出构建的通用流程，子类仅需实现getNodeType()方法，将5个LLM节点执行器代码从800+行精简至每个约10行。
-    \item \textbf{灵活参数映射与DAG解析}：实现Prompt模板变量替换，支持\texttt{\{variable\}}解析input静态值和reference动态引用；基于Kahn算法的拓扑排序确定节点执行顺序，通过DFS深度优先搜索检测循环依赖防止死锁，支持一对多、多对一的节点连接方式。
-    \item \textbf{实时反馈机制实现}：基于Spring SseEmitter实现工作流执行的实时反馈，设计ExecutionEvent事件模型，通过Consumer<ExecutionEvent>回调机制将LLM流式生成内容实时推送到前端调试面板。
+% --- 第二个项目：PaiAgent（极度压缩版，仅留核心亮点）---
+\textbf{PaiAgent - 企业级AI工作流可视化编排平台} \hfill 2025.03 -- 2026.01 \titlebreakSmall
+项目描述：基于LangGraph4j+Spring AI的零代码AI Agent编排平台，支持可视化拖拽多模型/工具节点，DAG引擎驱动复杂任务，降低企业定制化开发门槛。
+\begin{itemize}[nosep, topsep=\intraProjectListTopSepSmall]
+    \item \textbf{核心引擎与多模型接入}：基于LangGraph4j StateGraph构建工作流引擎，支持状态图/条件分支；设计ChatClientFactory动态工厂，实现OpenAI/DeepSeek/通义千问等多厂商LLM无缝切换。
+    \item \textbf{架构优化与实时反馈}：模板方法模式重构LLM执行器，代码精简80%+；基于Spring SseEmitter实现工作流执行实时反馈与流式内容推送。
 \end{itemize}
 
 \section{\makebox[\widthof{\faGraduationCap}][c]{\color{CVBlue}\faList}\ 获奖情况}
-\begin{itemize}
+\begin{itemize}[nosep] % <--- 获奖情况也用nosep缩小间距
     \item 浙江大学一等学业优秀奖学金 \hfill 2025.11
+    \item 唐仲英德育奖学金 \hfill 2019.9 -- 2022.6
 \end{itemize}
 
 \end{document}
