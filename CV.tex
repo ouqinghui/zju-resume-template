@@ -38,42 +38,42 @@
     a4paper,
     left=1.2cm,
     right=1.2cm,
-    top=1.2cm,      % 减小上边距
-    bottom=0.8cm,   % 减小下边距
+    top=1.1cm,      % 进一步压缩上边距
+    bottom=0.7cm,   % 进一步压缩下边距
     nohead
 ]{geometry}
 
-\renewcommand{\baselinestretch}{1.2} % 【关键】减小行间距（从1.5改到1.2）
+\renewcommand{\baselinestretch}{1.15} % 行间距微调，兼顾紧凑与可读性
 
 \usepackage{titlesec}
 \usepackage{enumitem}
 \setlist{noitemsep}
-\setlist[itemize]{topsep=0.2em, leftmargin=*} % 略微减小列表顶部间距
-\setlist[enumerate]{topsep=0.2em, leftmargin=*}
+\setlist[itemize]{topsep=0.15em, leftmargin=*} % 极致压缩列表间距
+\setlist[enumerate]{topsep=0.15em, leftmargin=*}
 
 \newlength{\interProjectSpacing}
-\setlength{\interProjectSpacing}{0.4em} % 减小项目之间的间距
+\setlength{\interProjectSpacing}{0.3em} % 压缩项目间空白
 \newcommand{\projectsep}{\vspace{\interProjectSpacing}}
 
 \newlength{\intraProjectTitleSep}
-\setlength{\intraProjectTitleSep}{0.25em} % 减小标题内部换行间距
+\setlength{\intraProjectTitleSep}{0.2em} % 压缩标题换行间距
 \newcommand{\titlebreak}{\\[\intraProjectTitleSep]}
 
 \newlength{\intraProjectListTopSep}
-\setlength{\intraProjectListTopSep}{0.1em} % 减小列表与上文的间距
+\setlength{\intraProjectListTopSep}{0.1em} % 压缩列表与上文间距
 
 \titleformat{\section}
-{\normalsize\bfseries\raggedright} % 【关键】 section标题字体从 large 改为 normalsize
+{\normalsize\bfseries\raggedright}
 {}{0em}
 {}
 [{\color{CVBlue}\titlerule}]
-\titlespacing*{\section}{0cm}{*1.0}{*0.8} % 【关键】减小section标题上下间距
+\titlespacing*{\section}{0cm}{*0.9}{*0.7} % 压缩section标题上下间距
 
 \begin{document}
 \pagenumbering{gobble}
 
 \begin{tikzpicture}[remember picture, overlay]
-    \node[anchor = north west] at ($(current page.north west)+(0.5cm,+0.8cm)$) {\includegraphics[height=5.5cm]{zju.png}}; % 略微缩小校徽
+    \node[anchor = north west] at ($(current page.north west)+(0.5cm,+0.7cm)$) {\includegraphics[height=5cm]{zju.png}}; % 微调校徽大小，节省顶部空间
 \end{tikzpicture}%
 
 \centerline{\LARGE\bfseries{欧庆辉}}
@@ -83,39 +83,43 @@
 
 \section{\makebox[\widthof{\faGraduationCap}][c]{\color{CVBlue}\faGraduationCap}\ 教育背景}
 \begin{tabular}{l l r}
-\textbf{浙江大学} & 人工智能/硕士 & 2024.9 -- 2027.6 \\[0.3em] % 减小表格行间距
+\textbf{浙江大学} & 人工智能/硕士 & 2024.9 -- 2027.6 \\[0.25em] % 压缩表格行间距
 \textbf{苏州大学} & 高分子材料与工程/学士 & 2018.9 -- 2022.6 \\
 \end{tabular}
 
-% ========== 新增：技术栈章节 ==========
+% ========== 技术栈章节（完整保留要求内容） ==========
 \section{\makebox[\widthof{\faWrench}][c]{\color{CVBlue}\faWrench}\ 技术栈}
-\textbf{后端：} Java 8+、Spring Boot、MySQL、Redis、MinIO、Kafka、Elasticsearch \\
-\textbf{AI/RAG：} RAG、LangGraph4j、Spring AI、Prompt工程
+\textbf{后端：} Java 8+/21、Spring Boot、MySQL、Redis、MinIO、Kafka、Elasticsearch \\
+\textbf{AI/RAG：} RAG、GraphRAG、Ollama、LangGraph4j、Spring AI、Prompt工程
 
 \section{\makebox[\widthof{\faUsers}][c]{\color{CVBlue}\faUsers}\ 项目经历}
 
-% ========== Tiny-RAG ==========
+% ========== Tiny-RAG 企业知识库系统（精简冗余，保留核心） ==========
 \textbf{Tiny-RAG 企业知识库系统} \hfill  \titlebreak
-项目描述：设计并实现高可用、高召回的企业级混合检索知识库系统，解决传统RAG在专有名词识别、长文档语义割裂、大文件上传可靠性等场景的痛点，支持多租户安全访问与低Token消耗的智能问答。
+项目描述：设计并实现高可用、高召回的企业级混合检索知识库系统，解决传统RAG在专有名词识别、长文档语义割裂、大文件上传可靠性等痛点，支持多租户安全访问与低Token智能问答。
 \begin{itemize}[nosep, topsep=\intraProjectListTopSep]
-    \item \textbf{混合检索引擎架构设计}：基于BM25（稀疏）与句向量Embedding（稠密）构建并行双引擎检索架构，结合KNN向量召回与关键词检索，提升专有名词与长尾语义的覆盖率；引入Cross-Encoder做高精度重排。
-    \item \textbf{双引擎索引落地实现}：基于Elasticsearch + IK分词搭建BM25关键词索引，使用通义千问2048维高维Embedding做语义向量化并存入向量库，通过RRF算法并行融合检索结果并重排。
-    \item \textbf{长文档语义优化方案}：提出Parent-Child Indexing（父子索引）策略，以小粒度子块定位检索、回溯父级段落恢复上下文，兼顾召回精度与语义完整性。
-    \item \textbf{高可靠大文件上传架构}：基于Kafka解耦「上传→解析→向量化」全流程，支持分片上传与断点续传；利用Redis Bitmap跟踪分片状态，结合MinIO与分片MD5校验实现可靠合并。
-    \item \textbf{智能检索优化与安全管控}：采用Dynamic Top-K调度算法，根据召回分数分布动态调整提交给LLM的片段数量；开发基于LLM的Query-Rewrite模块；引入RBAC多级权限控制。
+    \item \textbf{混合检索引擎架构}：基于BM25（稀疏）与句向量Embedding（稠密）构建并行双引擎，结合KNN向量召回与关键词检索，引入Cross-Encoder高精度重排，提升专有名词与长尾语义覆盖率。
+    \item \textbf{双引擎索引实现}：基于Elasticsearch+IK分词搭建BM25关键词索引，通义千问2048维Embedding做语义向量化，通过RRF算法融合检索结果并重排。
+    \item \textbf{长文档语义优化}：提出Parent-Child Indexing父子索引策略，小粒度子块定位检索、回溯父级恢复上下文，兼顾召回精度与语义完整性。
+    \item \textbf{高可靠文件上传架构}：基于Kafka解耦「上传→解析→向量化」全流程，支持分片上传与断点续传；Redis Bitmap跟踪分片状态，MinIO+MD5校验实现可靠合并。
+    \item \textbf{智能检索与安全管控}：Dynamic Top-K调度动态调整LLM输入片段数量，降低Token消耗；LLM驱动Query-Rewrite模块；RBAC多级权限控制与租户隔离。
 \end{itemize}
 
 \projectsep
 
-% ========== PaiAgent ==========
-\textbf{PaiAgent 企业级AI工作流可视化编排平台} \hfill  \titlebreak
-项目描述：基于LangGraph4j与Spring AI构建企业级AI工作流平台，支持可视化拖拽编排多模型与工具节点，通过DAG引擎执行复杂AI任务，实现零代码快速构建AI Agent应用。
+% ========== PaiAgent 完整保留用户提供的详细文字版 ==========
+\textbf{PaiAgent - 企业级AI工作流可视化编排平台} \hfill  \titlebreak
+项目描述：基于LangGraph4j与Spring AI的企业级AI工作流平台，支持可视化拖拽编排多模型（OpenAI、DeepSeek、通义千问）与工具节点，DAG引擎按拓扑顺序执行复杂AI任务，实现零代码构建AI Agent应用。
 \begin{itemize}[nosep, topsep=\intraProjectListTopSep]
-    \item \textbf{工作流引擎构建}：基于LangGraph4j StateGraph实现引擎核心，完成节点注册、异步执行与状态管理，支持状态图与条件分支的高级编排能力。
-    \item \textbf{架构优化与DAG调度}：采用模板方法模式重构LLM节点执行器，大幅精简代码；基于Kahn拓扑排序与DFS环检测实现DAG可靠调度，支持流式实时反馈。
+    \item 基于LangGraph4j StateGraph构建工作流引擎，GraphBuilder负责节点注册与边连接，NodeAdapter适配现有执行器为异步节点，StateManager管理状态传递，支持状态图、条件分支的高级编排。
+    \item 设计Spring AI多模型统一接入架构：ChatClientFactory动态工厂，运行时根据节点配置动态创建OpenAI兼容ChatClient，OpenAiChatOptions统一参数配置，实现多厂商LLM无缝切换。
+    \item 模板方法模式重构LLM节点执行器：抽象AbstractLLMNodeExecutor基类封装通用流程，子类仅需实现getNodeType()，将5个执行器代码从800+行精简至约10行/个。
+    \item 实现Prompt模板变量替换：支持input静态值与reference动态引用，从上游节点输出自动获取参数，实现节点间数据灵活映射。
+    \item 实现DAG工作流解析引擎：基于Kahn算法拓扑排序确定执行顺序，DFS深度优先搜索检测循环依赖防止死锁，支持一对多、多对一节点连接。
+    \item 基于Spring SseEmitter实现实时反馈：设计ExecutionEvent事件模型，Consumer<ExecutionEvent>回调将LLM流式生成内容实时推送到前端调试面板。
 \end{itemize}
 
-\section{\makebox[\widthof{\faTrophy}][c]{\color{CVBlue}\faTrophy}\ 获奖情况} % 换了个更贴切的图标
+\section{\makebox[\widthof{\faTrophy}][c]{\color{CVBlue}\faTrophy}\ 获奖情况}
 \begin{itemize}[nosep]
     \item 浙江大学一等学业优秀奖学金 \hfill 2025.11
     \item 唐仲英德育奖学金 \hfill 2019 -- 2022
