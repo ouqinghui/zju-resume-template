@@ -78,7 +78,7 @@
 
 \centerline{\LARGE\bfseries{欧庆辉}}
 \centerline{\normalsize{\faPhone\ 152-5117-6009 \quad \faEnvelopeO\ \href{mailto:15251176009@163.com}{15251176009@163.com}}}
-\centerline{\normalsize{硕士在读 \quad 实习时间：4-6个月}}
+
 \centerline{\normalsize{\textbf{求职意向：}AI应用开发工程师、软件开发工程师}}
 
 \section{\makebox[\widthof{\faGraduationCap}][c]{\color{CVBlue}\faGraduationCap}\ 教育背景}
@@ -90,7 +90,7 @@
 \section{\makebox[\widthof{\faUsers}][c]{\color{CVBlue}\faUsers}\ 项目经历}
 
 % ========== Tiny-RAG 完全保留原版 ==========
-\textbf{Tiny-RAG 企业知识库系统} \hfill 2025.10 -- 2026.02 \titlebreak
+\textbf{Tiny-RAG 企业知识库系统} \hfill  \titlebreak
 项目描述：设计并实现高可用、高召回的企业级混合检索知识库系统，解决传统RAG在专有名词识别、长文档语义割裂、大文件上传可靠性等场景的痛点，支持多租户安全访问与低Token消耗的智能问答，可直接落地企业内部知识问答、智能客服等场景。
 \begin{itemize}[nosep, topsep=\intraProjectListTopSep]
     \item \textbf{混合检索引擎架构设计}：基于BM25（稀疏）与句向量Embedding（稠密）构建并行双引擎检索架构，结合KNN向量召回与关键词检索，提升专有名词与长尾语义的覆盖率；引入Cross-Encoder做高精度重排，大幅提升上下文相关性与排序准确性。
@@ -103,11 +103,10 @@
 \projectsep
 
 % ========== PaiAgent 全新精准精简（严格按你图片原文） ==========
-\textbf{PaiAgent 企业级AI工作流可视化编排平台} \hfill 2025.03 -- 2026.01 \titlebreak
+\textbf{PaiAgent 企业级AI工作流可视化编排平台} \hfill  \titlebreak
 项目描述：基于LangGraph4j与Spring AI构建企业级AI工作流平台，支持可视化拖拽编排多模型与工具节点，通过DAG引擎执行复杂AI任务，实现零代码快速构建AI Agent应用。
 \begin{itemize}[nosep, topsep=\intraProjectListTopSep]
     \item \textbf{工作流引擎构建}：基于LangGraph4j StateGraph实现引擎核心，完成节点注册、异步执行与状态管理，支持状态图与条件分支的高级编排能力。
-    \item \textbf{多模型统一接入}：设计ChatClientFactory动态工厂，统一接入OpenAI、DeepSeek、通义千问等大模型，支持运行时动态切换与参数统一配置。
     \item \textbf{架构优化与DAG调度}：采用模板方法模式重构LLM节点执行器，大幅精简代码；基于Kahn拓扑排序与DFS环检测实现DAG可靠调度，支持流式实时反馈。
 \end{itemize}
 
